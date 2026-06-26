@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: dim_channels
+    description: "Dimension table with one row per Telegram channel"
+    columns:
+      - name: channel_key
+        description: "Surrogate key for the channel"
+        tests:
+          - unique
+          - not_null
+      - name: channel_name
+        description: "Name of the Telegram channel"
+        tests:
+          - not_null
+
+  - name: dim_dates
+    description: "Date dimension table"
+    columns:
+      - name: date_key
+        description: "Integer date key in YYYYMMDD format"
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_messages
+    description: "Fact table with one row per Telegram message"
+    columns:
+      - name: message_id
+        description: "Unique message identifier"
+        tests:
+          - not_null
+      - name: channel_key
+        description: "Foreign key to dim_channels"
+        tests:
+          - not_null
+      - name: date_key
+        description: "Foreign key to dim_dates"
+        tests:
+          - not_null
